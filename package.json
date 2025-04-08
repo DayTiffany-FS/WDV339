@@ -1,0 +1,15 @@
+{
+  "name": "wdv339",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/DayTiffany-FS/WDV339.git",
+  "author": "DayTiffany-FS <TSeals@student.fullsail.edu>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.0",
+    "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.2"
+  }
+}

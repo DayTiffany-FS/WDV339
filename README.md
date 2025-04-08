@@ -23,7 +23,7 @@ Chrome/Firefox/Safari/Edge >= latest 2 major versions
 
 http://localhost:8000 - Link to the front end, the primary user interface for the Spotify application
 http://localhost:8001 - Link to the backend API.
-http://localhost:8001/spotify/v1 - Link tot he Spotify API middleware
-http://localhost:8001/spotify/v1/status - Endpoint to check JWT status
-http://localhost:8001/spotify/v1/login - Endpoint to request new JWT from Spotify through the authorization workflow
+http://localhost:8001/spotify/v1 - Link tot he Spotify API middleware.
+http://localhost:8001/spotify/v1/status - Endpoint to check JWT status.
+http://localhost:8001/spotify/v1/login - Endpoint to request new JWT from Spotify through the authorization workflow.
 http://localhost:8001/spotify/v1/search - Endpoint for general/global search through Spotify with a JSON web response.
