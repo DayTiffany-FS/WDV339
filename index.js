@@ -1,8 +1,22 @@
 require('dotenv').config()
 const express = require('express')
+const axios = require('axios')
 
 const app = express()
+const PORT = 8000;
 
-console.log(process.env)
+const artistRoutes = require('./routes/artist');
+const songRoutes = require('./routes/song');
+const albumRoutes = require('./routes/album');
 
-app.listen(8001)
+app.use('/api/artist', artistRoutes);
+app.use('/api/song', songRoutes);
+app.use('/api/album', albumRoutes);
+
+app. get('/', async (req, res) => {
+    res.json({ message: "Welcome to the Spotify API App"})
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on PORT ${PORT}`);
+})
