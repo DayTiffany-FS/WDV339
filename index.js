@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use('/auth', authRoutes);
 app.use('/api/artist', artistRoutes);
-app.use('/api/song', songRoutes);
+app.use('/api/songs', songRoutes);
 app.use('/api/album', albumRoutes);
 
 app. get('/', async (req, res) => {
