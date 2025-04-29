@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const axios = require('axios')
+const path = require('path');
 
 const authRoutes = require('./routes/login')
 
@@ -12,14 +13,15 @@ const songRoutes = require('./routes/song');
 const albumRoutes = require('./routes/album');
 
 app.use(express.json());
+app.use(express.static('public'));
 
 app.use('/auth', authRoutes);
 app.use('/api/artist', artistRoutes);
 app.use('/api/songs', songRoutes);
 app.use('/api/album', albumRoutes);
 
-app. get('/', async (req, res) => {
-    res.json({ message: "Welcome to the Spotify API App"})
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 app.listen(PORT, () => {
