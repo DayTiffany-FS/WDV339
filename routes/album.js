@@ -5,12 +5,15 @@ const router = express.Router();
 let accessToken = '';
 let tokenExpiresAt = 0;
 
-//token setup
 const getAccessToken = async() => {
     if(Date.now() < tokenExpiresAt) return accessToken;
 
     const clientId = process.env.SPOTIFY_CLIENT_ID;
     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+
+    if (!clientId || !clientSecret) {
+        throw new Error('Spotify Client ID and Client Secret must be defined in environment variables');
+    }
 
     const authString = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
 
@@ -31,37 +34,40 @@ const getAccessToken = async() => {
     return accessToken;
     } catch (error) {
         console.error('Failed to acquire token:', error.response?.data || error.message);
-        throw error;
+        throw new Error('Could not retrieve Spotify access token.');
     }
 };
 
-//get album
+const fetchSpotifyData = async (url, token) => {
+    try {
+        const response = await axios.get(url, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching Spotify data:', error.response?.data || error.message);
+        throw new Error('Failed to fetch data from Spotify API');
+    }
+};
+
 router.get('/:id', async (req, res) => {
     try {
         const token = await getAccessToken();
-        const response = await axios.get(`https://api.spotify.com/v1/albums/${req.params.id}`, {
-            headers: {Authorization: `Bearer ${token}`}
-        });
-        res.json(response.data);
+        const data = await fetchSpotifyData(`https://api.spotify.com/v1/albums/${req.params.id}`, token);
+        res.json(data);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-//get album tracks
-router.get('/:id/tracks', async (req, res) => {
-    try {
-        const token = await getAccessToken();
-        const response = await axios.get(`https://api.spotify.com/v1/albums/${req.params.id}/tracks`, {
-            headers: {Authorization: `Bearer ${token}`}
-        });
-        res.json(response.data);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-//save album for current user
-
+// router.get('/:id/tracks', async (req, res) => {
+//     try {
+//         const token = await getAccessToken();
+//         const data = await fetchSpotifyData(`https://api.spotify.com/v1/albums/${req.params.id}/tracks`, token);
+//         res.json(data);
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// });
 
 module.exports = router;

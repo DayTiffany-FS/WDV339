@@ -40,27 +40,27 @@ const getAccessToken = async() => {
 };
 
 //search by artist
-router.get('/', async (req, res) => {
-    const { q } = req.query;
-    if (!q) {
-        return res.status(400).json({ error: 'Missing search information' });
-    }
+// router.get('/', async (req, res) => {
+//     const { q } = req.query;
+//     if (!q) {
+//         return res.status(400).json({ error: 'Missing search information' });
+//     }
 
-    try {
-        const token = await getAccessToken();
-        const response = await axios.get(`https://api.spotify.com/v1/search`, {
-            headers: { Authorization: `Bearer ${token}` },
-            params: {
-                q,
-                type: 'artist',
-                limit: 5
-            }
-        });
-        res.json(response.data.artists);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+//     try {
+//         const token = await getAccessToken();
+//         const response = await axios.get(`https://api.spotify.com/v1/search`, {
+//             headers: { Authorization: `Bearer ${token}` },
+//             params: {
+//                 q,
+//                 type: 'artist',
+//                 limit: 5
+//             }
+//         });
+//         res.json(response.data.artists);
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// });
 
 //search by artist id
 router.get('/:id', async (req, res) => {
@@ -75,42 +75,42 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-//artist albums
-router.get('/:id/albums', async (req, res) => {
-    try {
-        const token = await getAccessToken();
-        const {id} = req.params;
-        const {limit = 5, offset =0, include_groups = 'album,single', market = 'US'} = req.query;
+// //artist albums
+// router.get('/:id/albums', async (req, res) => {
+//     try {
+//         const token = await getAccessToken();
+//         const {id} = req.params;
+//         const {limit = 5, offset =0, include_groups = 'album,single', market = 'US'} = req.query;
 
-        const response = await axios.get(`https://api.spotify.com/v1/artists/${id}/albums`, {
-            headers: { Authorization: `Bearer ${token}`},
-            params: {
-                limit,
-                offset,
-                include_groups,
-                market
-            }
-        });
-        res.json(response.data)
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+//         const response = await axios.get(`https://api.spotify.com/v1/artists/${id}/albums`, {
+//             headers: { Authorization: `Bearer ${token}`},
+//             params: {
+//                 limit,
+//                 offset,
+//                 include_groups,
+//                 market
+//             }
+//         });
+//         res.json(response.data)
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// });
 
-//artist top tracks
-router.get('/:id/top-tracks', async (req, res) => {
-    try {
-        const token = await getAccessToken();
-        const { id } = req.params;
-        const { market = 'US' } = req.query;
-        const response = await axios.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`, {
-            headers: {Authorization: `Bearer ${token} `},
-            params: {market}
-        });
-        res.json(response.data)
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+// //artist top tracks
+// router.get('/:id/top-tracks', async (req, res) => {
+//     try {
+//         const token = await getAccessToken();
+//         const { id } = req.params;
+//         const { market = 'US' } = req.query;
+//         const response = await axios.get(`https://api.spotify.com/v1/artists/${id}/top-tracks`, {
+//             headers: {Authorization: `Bearer ${token} `},
+//             params: {market}
+//         });
+//         res.json(response.data)
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// });
 
 module.exports = router;
