@@ -3,12 +3,14 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const PORT = 8000;
+const cors = require('cors');
 
 const authRoutes = require('./routes/auth');
 const artistRoutes = require('./routes/artist');
 const songRoutes = require('./routes/songs');
 const albumRoutes = require('./routes/album');
 
+app.use(cors());
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'client', 'build'))); 
